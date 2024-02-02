@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-image: url('https://i.imgur.com/KUJcSr9.jpg');
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #00000000;
+        color: #fff;
+      }
+
+      .video-container {
+        display: flex; /* Center horizontally */
+        justify-content: center;
+        position: relative; /* Enable positioning of elements within */
+      }
+
+      iframe {
+        position: relative; /* Allow positioning of the overlay */
+        z-index: 1; /* Ensure it's behind the overlay */
+      }
+
+      .video-overlay {
+        position: absolute; /* Position it relative to the container */
+        top: 0; /* Align it to the top of the video */
+        left: 0; /* Align it to the left of the video */
+        width: 100%; /* Cover the full width */
+        height: 13%; /* Adjust this value to cover the desired portion */
+        background-color: rgba(51, 51, 51, 0.9); /* Customize the color and opacity */
+        z-index: 2; /* Place it above the video */
+        text-align: center; /* Center the title */
+        padding: 10px; /* Add some padding for better readability */
+      }
+
+      .video-overlay h1 {
+        margin: 0; /* Remove default margins for the title */
+      }
+    </style>
+    
+  </head>
+  <body>
+
+    <div class="video-container">
+      <iframe src="<?= (r && r !== '') ? r : 'https://www.youtube.com/embed/dQw4w9WgXcQ' ?>" width="640" height="480" allowfullscreen></iframe>
+      <div class="video-overlay">
+        <h1>MovieStar</h1>
+      </div>
+    </div>
+
+    <script>
+
+      const AS_URL_BASE = "https://script.google.com/a/~/macros/s/AKfycbw61rv96gavNjh4wAijEJh42F6M29NA_ijGwNMrvjNyoVDriaZRR_82tjEdapAkSUIo_w/exec";
+
+      var url = document.location.href;
+      
+      var IndexV = url.substr(url.lastIndexOf("IndexGH")+2);
+      var IDV = url.substr(url.lastIndexOf("IDGH")+2);
+      var TokenIDV = url.substr(url.lastIndexOf("TokenIDGH")+2);
+      var TokenVinculacionV = url.substr(url.lastIndexOf("TokenVinculacionGH")+2);
+
+      if(IndexV){
+        fetch(AS_URL_BASE+'?Index='+IndexV+'&ID='+IDV+'&TokenID='+TokenIDV+'&TokenVinculacion='+TokenVinculacionV)
+        .then(r => r.text())
+        .then((response) => {
+          console.log(response);
+          r = response;
+        })
+        .catch(err => sonsole.log(err))
+      }
+
+      function oncontextmenu(event) {
+        event.preventDefault();
+      }
+
+      document.addEventListener("contextmenu", oncontextmenu);
+
+    </script>
+
+  </body>
+</html>
