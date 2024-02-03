@@ -1,66 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-      body {
-        background-image: url('https://i.imgur.com/KUJcSr9.jpg');
-        background-size: cover;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background-color: #00000000;
-        color: #fff;
-      }
+    body {
+      background-image: url('https://i.imgur.com/KUJcSr9.jpg');
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #00000000;
+      color: #fff;
+    }
 
-      .video-container {
-        display: flex; /* Center horizontally */
-        justify-content: center;
-        position: relative; /* Enable positioning of elements within */
-      }
+    .video-container {
+      display: flex; /* Center horizontally */
+      justify-content: center;
+      position: relative; /* Enable positioning of elements within */
+    }
 
-      iframe {
-        position: relative; /* Allow positioning of the overlay */
-        z-index: 1; /* Ensure it's behind the overlay */
-      }
+    .video-overlay {
+      position: absolute; /* Position it relative to the container */
+      top: 0; /* Align it to the top of the video */
+      left: 0; /* Align it to the left of the video */
+      width: 100%; /* Cover the full width */
+      height: 13%; /* Adjust this value to cover the desired portion */
+      background-color: rgba(51, 51, 51, 0.9); /* Customize the color and opacity */
+      z-index: 2; /* Place it above the video */
+      text-align: center; /* Center the title */
+      padding: 10px; /* Add some padding for better readability */
+    }
 
-      .video-overlay {
-        position: absolute; /* Position it relative to the container */
-        top: 0; /* Align it to the top of the video */
-        left: 0; /* Align it to the left of the video */
-        width: 100%; /* Cover the full width */
-        height: 13%; /* Adjust this value to cover the desired portion */
-        background-color: rgba(51, 51, 51, 0.9); /* Customize the color and opacity */
-        z-index: 2; /* Place it above the video */
-        text-align: center; /* Center the title */
-        padding: 10px; /* Add some padding for better readability */
-      }
+    .video-overlay h1 {
+      margin: 0; /* Remove default margins for the title */
+    }
+  </style>
+</head>
+<body>
 
-      .video-overlay h1 {
-        margin: 0; /* Remove default margins for the title */
-      }
-    </style>
-    
-  </head>
-  <body>
+<div class="video-container" id="video-container"></div>
 
-    <div class="video-container">
-      <iframe width="640" height="480" allowfullscreen></iframe>
-      <div class="video-overlay">
-        <h1>MovieStar</h1>
-      </div>
-    </div>
+<script>
+  const container = document.getElementById('video-container');
 
-    <script>
-      const iframe = document.querySelector('iframe'); // Obtener referencia al iframe
-
-      const AS_URL_BASE = "https://script.google.com/a/~/macros/s/AKfycbzNO7OguaaqWjZ9TB2f5H6j3BVvS6EFXbnM1JoIiuDYJ_j9IGDcldwBq3vriHGM-4jszg/exec";
+  // Función para crear el iframe dinámicamente
+  function createIframe(url) {
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('width', '640');
+    iframe.setAttribute('height', '480');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.src = url;
+    return iframe;
+  }
 
   // Definir variables para almacenar los parámetros
   var IndexGH;
@@ -80,28 +77,24 @@
   TokenIDGH = params.get('TokenIDGH');
   TokenVinculacionGH = params.get('TokenVinculacionGH');
 
-      if(IndexGH){
-        fetch(AS_URL_BASE+'?Index='+IndexGH+'&ID='+IDGH+'&TokenID='+TokenIDGH+'&TokenVinculacion='+TokenVinculacionGH)
-        .then(r => r.text())
-        .then((response) => {
-          console.log(response);
-          r = response;
-          
-          // Eliminar primer y último carácter y guardar en t
-          t = r.slice(1, -1);
-          iframe.src = t; // Asignar la URL modificada a la variable iframe.src
-          
-        })
-        .catch(err => sonsole.log(err))
-      }
+  // Obtener la URL del iframe desde el script de Google Apps Script
+  const AS_URL_BASE = "https://script.google.com/a/~/macros/s/AKfycbzNO7OguaaqWjZ9TB2f5H6j3BVvS6EFXbnM1JoIiuDYJ_j9IGDcldwBq3vriHGM-4jszg/exec";
 
-      function oncontextmenu(event) {
-        event.preventDefault();
-      }
+  fetch(AS_URL_BASE + '?Index=' + IndexGH + '&ID=' + IDGH + '&TokenID=' + TokenIDGH + '&TokenVinculacion=' + TokenVinculacionGH)
+    .then(r => r.text())
+    .then((response) => {
+      console.log(response);
+      r = response;
 
-      document.addEventListener("contextmenu", oncontextmenu);
+      // Eliminar primer y último carácter y guardar en t
+      t = r.slice(1, -1);
 
-    </script>
+      // Crear el iframe dinámicamente
+      const iframe = createIframe(t);
+      container.appendChild(iframe);
+    })
+    .catch(err => console.log(err));
+</script>
 
-  </body>
+</body>
 </html>
