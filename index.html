@@ -61,15 +61,26 @@
 
       const AS_URL_BASE = "https://script.google.com/a/~/macros/s/AKfycbzNO7OguaaqWjZ9TB2f5H6j3BVvS6EFXbnM1JoIiuDYJ_j9IGDcldwBq3vriHGM-4jszg/exec";
 
-      var url = document.location.href;
-      
-      var IndexV = url.substr(url.lastIndexOf("IndexGH")+2);
-      var IDV = url.substr(url.lastIndexOf("IDGH")+2);
-      var TokenIDV = url.substr(url.lastIndexOf("TokenIDGH")+2);
-      var TokenVinculacionV = url.substr(url.lastIndexOf("TokenVinculacionGH")+2);
+  // Definir variables para almacenar los parámetros
+  var IndexGH;
+  var IDGH;
+  var TokenIDGH;
+  var TokenVinculacionGH;
 
-      if(IndexV){
-        fetch(AS_URL_BASE+'?Index='+IndexV+'&ID='+IDV+'&TokenID='+TokenIDV+'&TokenVinculacion='+TokenVinculacionV)
+  // Obtener la URL actual
+  var url = window.location.href;
+
+  // Extraer los parámetros
+  var params = new URLSearchParams(url.split('?')[1]);
+
+  // Asignar los valores a las variables
+  IndexGH = params.get('IndexGH');
+  IDGH = params.get('IDGH');
+  TokenIDGH = params.get('TokenIDGH');
+  TokenVinculacionGH = params.get('TokenVinculacionGH');
+
+      if(IndexGH){
+        fetch(AS_URL_BASE+'?Index='+IndexGH+'&ID='+IDGH+'&TokenID='+TokenIDGH+'&TokenVinculacion='+TokenVinculacionGH)
         .then(r => r.text())
         .then((response) => {
           console.log(response);
