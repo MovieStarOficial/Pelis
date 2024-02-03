@@ -86,7 +86,11 @@
         .then((response) => {
           console.log(response);
           r = response;
-          iframe.src = r; // Asignar la URL a la variable r
+          
+          // Eliminar primer y último carácter y guardar en t
+          t = r.slice(1, -1);
+          iframe.src = t; // Asignar la URL modificada a la variable iframe.src
+          
         })
         .catch(err => sonsole.log(err))
       }
